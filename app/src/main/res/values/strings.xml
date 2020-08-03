@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">ChatAppAndroid</string>
+
+    <string name="kullaniciadi">Kullanıcı Adı</string>
+</resources>
