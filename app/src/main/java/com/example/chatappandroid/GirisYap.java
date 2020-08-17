@@ -15,6 +15,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.sql.SQLOutput;
+import java.util.HashMap;
+import java.util.Map;
 
 public class GirisYap extends AppCompatActivity {
 
@@ -33,6 +35,7 @@ public class GirisYap extends AppCompatActivity {
     public void girisYap(View view){
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference Ref = database.getReference("kullanicilar");
+
         final EditText girisKutu = findViewById(R.id.GirisYapKutu);
         final EditText sifreKutu = findViewById(R.id.SifreKutu);
 
@@ -40,16 +43,25 @@ public class GirisYap extends AppCompatActivity {
         Ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot kullanici:dataSnapshot.getChildren()){
-                    if(girisKutu.getText().toString().matches(String.valueOf(kullanici.getKey()))){
+
+
+                for(DataSnapshot kullanici:dataSnapshot.getChildren()){ //Kullanicilar listesinde dongu baslatiyor.
+                    if(girisKutu.getText().toString().matches(String.valueOf(kullanici.getKey()))){ // eger input ile herhangi bi kullanici ismi eslesirse
                         System.out.println("Başarılı1");
 
-                        if(sifreKutu.getText().toString().matches(String.valueOf(kullanici.getValue()))) {
-                            System.out.println("Başarılı2");
+                        for(DataSnapshot sifre:kullanici.getChildren()) { // sifre verisinin altindaki verileri cekiyor.
+
+                            if (String.valueOf(sifre.getKey()).matches("sifre") && sifreKutu.getText().toString().matches(String.valueOf(sifre.getValue()))) { //sifre kontrol
+
+                                System.out.println("Başarılı2");
+                                //to - do main activty' bağla
+                            }
+
+                            else{
+                                System.out.println("Yanlış Şifre");
+                            }
                         }
                     }
-
-
                 }
             }
 
